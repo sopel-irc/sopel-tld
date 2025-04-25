@@ -1,5 +1,11 @@
 ## Changelog
 
+### 0.1.1
+
+Fixed:
+* English-language ICANN era gTLDs got moved to a separate page; parse that too.
+
+
 ### 0.1.0
 
 First release of `sopel-tld`, based on the built-in `tld` plugin from Sopel 8.0.

@@ -44,6 +44,7 @@ IANA_LIST_URI = 'https://data.iana.org/TLD/tlds-alpha-by-domain.txt'
 WIKI_PAGE_NAMES = [
     'List_of_Internet_top-level_domains',
     'Country_code_top-level_domain',
+    'List_of_English-language_generic_Internet_top-level_domains',
 ]
 WIKI_API_PARAMS: dict[str, str | int] = {
     "action": "parse",
