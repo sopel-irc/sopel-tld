@@ -130,7 +130,7 @@ class WikipediaTLDListParser(HTMLParser):
             self.skipping = True
         elif tag == 'table':
             for name, value in attrs:
-                if name == 'class' and 'wikitable' in value:
+                if name == 'class' and value and 'wikitable' in value:
                     self.skipping = False
         elif tag in ['b', 'strong'] and self.in_cell:
             self.current_cell += '<[bold]>'
