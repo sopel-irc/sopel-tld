@@ -111,6 +111,8 @@ class WikipediaTLDListParser(HTMLParser):
     def __init__(self):
         HTMLParser.__init__(self)
         self.in_cell = False
+        self.in_list = False
+        self.first_list_item = False
         self.skipping = True
         self.current_row = []
         self.current_cell = ''
@@ -128,12 +130,18 @@ class WikipediaTLDListParser(HTMLParser):
             self.skipping = True
         elif tag == 'table':
             for name, value in attrs:
-                if name == 'class' and 'wikitable' in value:
+                if name == 'class' and value and 'wikitable' in value:
                     self.skipping = False
         elif tag in ['b', 'strong'] and self.in_cell:
             self.current_cell += '<[bold]>'
         elif tag in ['i', 'em'] and self.in_cell:
             self.current_cell += '<[italic]>'
+        elif tag == 'li' and self.in_cell:
+            if not self.in_list:
+                self.in_list = True
+                self.first_list_item = True
+            elif self.in_list and self.first_list_item:
+                self.first_list_item = False
 
     def handle_endtag(self, tag):
         if tag == 'td' or tag == 'th':
@@ -167,9 +175,15 @@ class WikipediaTLDListParser(HTMLParser):
             self.current_cell += '<[bold]>'
         elif tag in ['i', 'em'] and self.in_cell:
             self.current_cell += '<[italic]>'
+        elif tag in ['ul', 'ol'] and self.in_cell:
+            self.in_list = False
 
     def handle_data(self, data):
         if self.in_cell and not self.skipping:
+            if self.in_list and not self.first_list_item:
+                # If this is a list item, separate it from the previous item
+                # with a comma, so that the list items don't run together.
+                self.current_cell += ', '
             self.current_cell += data
 
     def get_processed_data(self):
