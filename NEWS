@@ -1,5 +1,12 @@
 ## Changelog
 
+### 0.1.2
+
+Fixed:
+* Lists in fields (e.g. ccTLD "domain hacks") are parsed correctly with a
+  separator added between items (`item 1, item 2` vs. `item 1item2`) [#4]
+
+
 ### 0.1.1
 
 Fixed:
