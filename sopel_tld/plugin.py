@@ -19,15 +19,19 @@ from __future__ import annotations
 from datetime import datetime
 from encodings import idna
 from html.parser import HTMLParser
+import importlib.metadata
 from json import JSONDecodeError
 import re
 
+import packaging.utils
 import pytz
 import requests
 
 from sopel import formatting, plugin, tools
 
 
+PACKAGE = packaging.utils.canonicalize_name(__package__)
+VERSION = importlib.metadata.version(PACKAGE)
 LOGGER = tools.get_logger('tld')
 
 
@@ -53,6 +57,10 @@ WIKI_API_PARAMS: dict[str, str | int] = {
     "utf8": 1,
     "formatversion": 2,
 }
+WIKI_REQUEST_HEADERS = {
+    "User-Agent": f"{PACKAGE}/{VERSION} (https://pypi.io/p/{PACKAGE}/)",
+}
+
 r_tld = re.compile(r'^\.(\S+)')
 r_idn = re.compile(r'^(xn--[A-Za-z0-9]+)')
 
@@ -292,6 +300,7 @@ def _update_tld_data(bot, which, force=False):
                 tld_response = requests.get(
                     "https://en.wikipedia.org/w/api.php",
                     params=parameters,
+                    headers=WIKI_REQUEST_HEADERS,
                 ).json()
                 data_pages.append(tld_response["parse"]["text"])
             except (requests.exceptions.RequestException, JSONDecodeError, KeyError):
