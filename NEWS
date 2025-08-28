@@ -1,5 +1,11 @@
 ## Changelog
 
+### 0.1.3
+
+Fixed:
+* Send a proper user agent with requests to Wikipedia [#5]
+
+
 ### 0.1.2
 
 Fixed:
