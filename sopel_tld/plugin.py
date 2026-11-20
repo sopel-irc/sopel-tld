@@ -144,6 +144,8 @@ class WikipediaTLDListParser(HTMLParser):
             self.current_cell += '<[bold]>'
         elif tag in ['i', 'em'] and self.in_cell:
             self.current_cell += '<[italic]>'
+        elif tag == 'br' and self.in_cell:
+            self.current_cell += ' '
         elif tag == 'li' and self.in_cell:
             if not self.in_list:
                 self.in_list = True
