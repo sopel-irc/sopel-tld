@@ -239,10 +239,19 @@ class WikipediaTLDListParser(HTMLParser):
                     in dict(zip(headings, row)).items()
                     if value and value != '—'
                 }
-                if key:
-                    tld_list[key] = zipped
-                if idn_key:
-                    tld_list[idn_key] = zipped
+                for lookup_key in (key, idn_key):
+                    if not lookup_key:
+                        continue
+                    if lookup_key in tld_list:
+                        # safely merge extra data into an existing entry
+                        # See https://github.com/sopel-irc/sopel-tld/issues/2
+                        for field, value in zipped.items():
+                            if field.lower() == 'gcctld':
+                                # this will always duplicate the 'Name' field
+                                continue
+                            tld_list[lookup_key].setdefault(field, value)
+                    else:
+                        tld_list[lookup_key] = zipped
 
         LOGGER.debug("Finished processing TLD data; returning it.")
         self.finished = True
