@@ -46,9 +46,9 @@ DEFAULT_CACHE_DATETIME = _strptime_as_utc(DEFAULT_CACHE_TIME)
 
 IANA_LIST_URI = 'https://data.iana.org/TLD/tlds-alpha-by-domain.txt'
 WIKI_PAGE_NAMES = [
-    'List_of_Internet_top-level_domains',
+    'List_of_internet_top-level_domains',
     'Country_code_top-level_domain',
-    'List_of_English-language_generic_Internet_top-level_domains',
+    'List_of_English-language_generic_internet_top-level_domains',
 ]
 WIKI_API_PARAMS: dict[str, str | int] = {
     "action": "parse",
@@ -56,6 +56,7 @@ WIKI_API_PARAMS: dict[str, str | int] = {
     "prop": "text",
     "utf8": 1,
     "formatversion": 2,
+    "redirects": 1,
 }
 WIKI_REQUEST_HEADERS = {
     "User-Agent": f"{PACKAGE}/{VERSION} (https://pypi.io/p/{PACKAGE}/)",
