@@ -1,5 +1,13 @@
 ## Changelog
 
+### 0.1.4
+
+Fixed:
+* Fetch updated wiki page titles, and follow redirects in the future [#6]
+* Treat line break in table cell as a space [#7]
+* Merge multiple rows of data fields for the same (cc)TLD [#8]
+
+
 ### 0.1.3
 
 Fixed:
